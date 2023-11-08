@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script>
+			const jQuery = window.$;
+			//hacky 3 am fix
+			function t() {
+				Typer.addText({ keyCode: 123748 });
+				if (Typer.index > Typer.text.length) {
+					clearInterval(timer);
+				}
+			}
+
+			var Typer = {
+				text: '',
+				accessCountimer: -1,
+				index: 0,
+				speed: 2,
+				file: '',
+				accessCount: 0,
+				deniedCount: 0,
+				init: function () {
+					Typer.accessCountimer = setInterval(function () {
+						Typer.updLstChr();
+					}, 500);
+					jQuery.get(Typer.file, function (data) {
+						Typer.text = data;
+						Typer.text = Typer.text.slice(0, Typer.text.length - 1);
+					});
+				},
+
+				content: function () {
+					return jQuery('#console').html();
+				},
+
+				write: function (str) {
+					jQuery('#console').append(str);
+					return false;
+				},
+
+				addText: function (key) {
+					if (key.keyCode == 18) {
+						Typer.accessCount++;
+
+						if (Typer.accessCount >= 3) {
+							Typer.makeAccess();
+						}
+					} else if (key.keyCode == 20) {
+						Typer.deniedCount++;
+
+						if (Typer.deniedCount >= 3) {
+							Typer.makeDenied();
+						}
+					} else if (key.keyCode == 27) {
+						Typer.hidepop();
+					} else if (Typer.text) {
+						var cont = Typer.content();
+						if (cont.substring(cont.length - 1, cont.length) == '|')
+							jQuery('#console').html(
+								jQuery('#console')
+									.html()
+									.substring(0, cont.length - 1)
+							);
+						if (key.keyCode != 8) {
+							Typer.index += Typer.speed;
+						} else {
+							if (Typer.index > 0) Typer.index -= Typer.speed;
+						}
+						var text = Typer.text.substring(0, Typer.index);
+						var rtn = new RegExp('\n', 'g');
+
+						jQuery('#console').html(text.replace(rtn, '<br/>'));
+						window.scrollBy(0, 50);
+					}
+
+					if (key.preventDefault && key.keyCode != 122) {
+						key.preventDefault();
+					}
+
+					if (key.keyCode != 122) {
+						// otherway prevent keys default behavior
+						key.returnValue = false;
+					}
+				},
+
+				updLstChr: function () {
+					var cont = this.content();
+
+					if (cont.substring(cont.length - 1, cont.length) == '|')
+						jQuery('#console').html(
+							jQuery('#console')
+								.html()
+								.substring(0, cont.length - 1).append(' ')
+						);
+					else this.write('|'); // else write it
+				}
+			};
+
+			function replaceUrls(text) {
+				var http = text.indexOf('http://');
+				var space = text.indexOf('.me ', http);
+
+				if (space != -1) {
+					var url = text.slice(http, space - 1);
+					return text.replace(url, '<a href="' + url + '">' + url + '</a>');
+				} else {
+					return text;
+				}
+			}
+
+			Typer.speed = 2;
+			Typer.file = 'termtext.txt';
+			Typer.init();
+
+			var timer = setInterval('t();', 30);
+
+			document.onkeydown = function (e) {
+				if (e.keyCode == 27) {
+					// fastforward text
+					Typer.index = Typer.text.length;
+				}
+			};
+		</script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>
