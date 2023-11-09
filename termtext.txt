@@ -3,15 +3,15 @@
 
 April John, activitypub expert and PCB designer.
 
-/// TODO ///
+/// <!-- slightdelayhere-->TODO<!-- slightdelayhere--> ///
 
 Find me at:
-<a href="https://fediverse.gay/@aprl">Fediverse</a>
-<a href="https://github.com/cutestnekoaqua">Github</a>
-<a href="https://www.linkedin.com/in/april-john-4bb572294/">LinkedIn</a>
-<a href="https://iceshrimp.dev/aprilthepink">Iceshrimp</a>
-<a href="https://gitlab.com/wolfistgeil">Gitlab</a>
-<a href="mailto:aprl@acab.dev">CV</a>
+<a href="https://fediverse.gay/@aprl">Fediverse</a><!-- slightdelayhere-->
+<a href="https://github.com/cutestnekoaqua">Github</a><!-- slightdelayhere-->
+<a href="https://www.linkedin.com/in/april-john-4bb572294/">LinkedIn</a><!-- slightdelayhere-->
+<a href="https://iceshrimp.dev/aprilthepink">Ice<!-- slightdelayhere-->shrimp</a>
+<a href="https://gitlab.com/wolfistgeil">Gitlab</a><!-- slightdelayhere-->
+<a href="mailto:aprl@acab.dev">CV</a><!-- slightdelayhere-->
 
 You can contact me over email<!-- slightdelayhere-->, and make sure you are using PGP, at <a href="mailto:aprl@acab.dev">aprl@acab.dev</a>.
 
